@@ -18,7 +18,7 @@ VERSIONPATH="/usr/share/xiaoqiang"
 
 MOUNTFILESPATH="/tmp/langmod/tmp"
 
-if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" ]; then
+if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" -o "$MODEL" == "R3" ]; then
   echo "Supported Model ($MODEL)"
 else
   echo "Unsupported Model"
