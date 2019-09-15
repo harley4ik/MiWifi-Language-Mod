@@ -11,7 +11,7 @@ This mod will patch the Chinese firmware running on the router to re-enable the 
 
 We then install these changes to /etc/firewall.user so they're persistant across reboots, as the changes only exist in the ram.
 
-Right now **only** the Xiaomi Router 3 Pro (**R3P**) and Xiaomi Router 3G (**R3G**) are **supported**, you're more than welcome to patch this to work on other models.
+Right now **only** the Xiaomi Router 3 Pro (**R3P**), Xiaomi Router 3 HD (**R3D**) and Xiaomi Router 3G (**R3G**) are **supported**, you're more than welcome to patch this to work on other models.
 
 To install, make sure you're on the Developer Version of the firmware with SSH enabled. Enabling this is outside the scope of this tutorial, a quick Google will find the instructions.
 

@@ -4,8 +4,9 @@
 # Description：English install.
 # Author：ChocolateMilkGod
 # E-mail: daniel .. smi.sh
-# Time：2018-04-27 01:30 UTC
-# Version: 1.00
+# add R3D by harley4ik
+# Time：2019-09-15 
+# Version: 1.01
 #----------------------------------------------------------------*/
 
 clear
@@ -16,9 +17,9 @@ LUAPATH="/usr/lib/lua/luci"
 WEBPATH="/www/xiaoqiang/web"
 VERSIONPATH="/usr/share/xiaoqiang"
 
-MOUNTFILESPATH="/tmp/langmod/tmp"
+MOUNTFILESPATH="/etc/langmod"
 
-if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" -o "$MODEL" == "R3" ]; then
+if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" -o "$MODEL" == "R3" -o "$MODEL" == "R3D" ]; then
   echo "Supported Model ($MODEL)"
 else
   echo "Unsupported Model"
@@ -39,8 +40,8 @@ umount -lf $LUAPATH 2>/dev/null
 umount -lf $WEBPATH 2>/dev/null
 umount -lf $VERSIONPATH 2>/dev/null
 
-rm -rf $MOUNTFILESPATH
-mkdir -p $MOUNTFILESPATH
+#rm -rf $MOUNTFILESPATH
+#mkdir -p $MOUNTFILESPATH
 
 cp -rf $LUAPATH $MOUNTFILESPATH
 cp -rf $WEBPATH $MOUNTFILESPATH
@@ -54,7 +55,7 @@ if [ ! -f /etc/langmod/base.en.lmo ]; then
   mkdir /etc/langmod/
   touch /etc/langmod/.installed
   echo -n "Downloading English Pack"
-  wget http://nocrypt.smi.sh/languages/R3P/base.en.lmo -O /etc/langmod/base.en.lmo
+  cp ./languages/$MODEL/base.en.lmo /etc/langmod/base.en.lmo
 fi
 
 if [ ! -f /etc/langmod/base.en.lmo ]; then
@@ -64,7 +65,7 @@ fi
 
 echo "Patching Files"
 
-ln -s /etc/langmod/base.en.lmo /usr/lib/lua/luci/i18n/base.en.lmo
+#cp /etc/langmod/base.en.lmo /usr/lib/lua/luci/i18n/base.en.lmo
 uci batch <<-EOF
   set luci.languages.en=English
   set luci.main.lang=en
@@ -85,19 +86,17 @@ sed -i 's#class="download"#class="download" style="display: none;"#g' /usr/lib/l
 sed -i 's#class="tip"#class="tip" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
 sed -i 's#<%:欢迎使用小米路由器%>#<img src="<%=resource%>/web/img/<%=lang%>/bg_login_tit.png?v=<%=ver%>" height="124">#g' /usr/lib/lua/luci/view/web/sysauth.htm
 
-sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footer.htm
-sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
+sed -i 's#2015#2019#g' /usr/lib/lua/luci/view/web/inc/footer.htm
+sed -i 's#2015#2019#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
 
-luci-reload
-rm -r /tmp/luci-modulecache
-luci-reload
+luci-reload & rm -r /tmp/luci-modulecache & luci-reload
 
 echo "Making persistant between reboots"
 touch /etc/firewall.user
 
 result=$(cat /etc/firewall.user | grep langmod | wc -l) #patch firewall.user to make persistant
 if [ $result == 0 ]; then
-  echo "sh /etc/langmod/install.sh &" >> /etc/firewall.user
+  echo " & sh /etc/langmod/install.sh &" >> /etc/firewall.user
 fi
 
 result=$(cat /etc/hosts | grep bigota | wc -l) #patch hosts as we're getting forced otas at midnight as we're not matching verified firmware versions
