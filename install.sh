@@ -55,7 +55,7 @@ if [ ! -f /etc/langmod/base.en.lmo ]; then
   mkdir /etc/langmod/
   touch /etc/langmod/.installed
   echo -n "Downloading English Pack"
-   wget https://github.com/leonguyen52/MiWifi-Language-Mod/blob/master/languages/$MODEL/base.en.lmo -O /etc/langmod/base.en.lmo
+   wget https://github.com/harley4ik/MiWifi-Language-Mod/blob/master/languages/$MODEL/base.en.lmo -O /etc/langmod/base.en.lmo
 fi
 
 if [ ! -f /etc/langmod/base.en.lmo ]; then
